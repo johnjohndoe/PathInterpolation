@@ -3,6 +3,11 @@ Path interpolation
 
 The sample program shows how to interpolate a path of points. The sampling rate can be choosen flexible.
 
+Screenshot
+------------------
+The screenshot shows the current implementation.
+
+![Path interpolation](https://github.com/johnjohndoe/PathInterpolation/raw/master/screenshot.png "Path interpolation")
 
 
 Configuration
