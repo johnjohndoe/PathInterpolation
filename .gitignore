@@ -1,0 +1,54 @@
+# Visual Studio 2010
+*.tlog
+*.manifest
+*.user
+*.force
+obj/
+
+
+# Fragments of the conversion from VS2008 to VS2010
+Backup*/
+_UpgradeReport_Files/
+UpgradeLog*.XML
+
+
+# ignore thumbnails created by windows
+Thumbs.db
+
+
+# Visual Studio
+*.obj
+*.exe
+*.vshost.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.Cache
+*.cachefile
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+*.testsettings
+*.vsmdi
+
+
+# HTML folder produced by Doxygen
+html*/
+
