@@ -68,15 +68,27 @@ namespace PathInterpolation
         /// <param name="e">The event.</param>
         private void Interpolate_Click(object sender, RoutedEventArgs e)
         {
-            // Get settings.
-            ushort samplingRate;
-            if (!UInt16.TryParse(samplingRate_TextField.Text, out samplingRate))
-                return;
-
-            // Calculate.
-            pathInterpolation = interpolation.Interpolate((UInt16)samplingRate, pathOriginal);
+            UInt16 samplingRate = SamplingRate();
+            if (samplingRate > 0)
+            {
+                // Calculate.
+                pathInterpolation = interpolation.Interpolate((UInt16)samplingRate, pathOriginal);
+            }
 
             Repaint();
+        }
+
+        /// <summary>
+        /// Returns the sample rate from the text field.
+        /// </summary>
+        /// <returns></returns>
+        private UInt16 SamplingRate()
+        {
+            // Get settings.
+            ushort samplingRate;
+            if (UInt16.TryParse(samplingRateTextField.Text, out samplingRate))
+                return (UInt16)samplingRate;
+            return 0;
         }
 
         /// <summary>
@@ -161,10 +173,11 @@ namespace PathInterpolation
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event.</param>
-        private void samplingRate_TextField_KeyDown(object sender, KeyEventArgs e)
+        private void samplingRateTextField_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
                 Interpolate_Click(sender, e);
+            Console.WriteLine("samplingRateTextField_KeyDown");
         }
 
         /// <summary>
@@ -206,5 +219,47 @@ namespace PathInterpolation
             pathInterpolation = null;
             Repaint();
         }
+
+        /// <summary>
+        /// Increments or decrements the sampling rate.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
+        private void samplingRateTextField_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            // Increment.
+            if (e.Key == Key.Up)
+            {
+                int samplingRate = SamplingRate();
+                if (samplingRate > 0)
+                {
+                    if (Keyboard.Modifiers == ModifierKeys.Shift)
+                        samplingRate += 10;
+                    else
+                        samplingRate++;
+                    samplingRateTextField.Text = samplingRate.ToString();
+                }
+                Interpolate_Click(sender, e);
+            }
+
+            // Decrement.
+            if (e.Key == Key.Down)
+            {
+                int samplingRate = SamplingRate();
+                if (samplingRate > 0)
+                {
+                    if (Keyboard.Modifiers == ModifierKeys.Shift)
+                        samplingRate -= 10;
+                    else 
+                        samplingRate--;
+                    if (samplingRate > 0)
+                        samplingRateTextField.Text = samplingRate.ToString();
+                }
+                Interpolate_Click(sender, e);
+            }
+
+        }
+
+
     }
 }
