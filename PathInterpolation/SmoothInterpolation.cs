@@ -10,6 +10,8 @@ namespace PathInterpolation
     /// The SmoothInterpolation class is capable of calculating a new path with points 
     /// distributed in equal distances along the original path with more a less 
     /// the same position.
+    /// TODO: Subsampling the path does not work satisfying due to the direction vector 
+    /// which is taken from the first point pair of the original path.
     /// </summary>
     public class SmoothInterpolation : IInterpolation
     {
@@ -34,7 +36,8 @@ namespace PathInterpolation
             _path = path;
 
             IList<Vector3D> interpolatedPath = new List<Vector3D>(_samplingRate);
-            // 
+            // The aim is to produce sampling rate - 1 line segments - in other words 
+            // as many points as the sampling rate value.
             _sampleLength = TotalPathDistance() / (_samplingRate - 1);
 
 
@@ -69,9 +72,11 @@ namespace PathInterpolation
                 // --------------------------------------------------------------
                 else if (currentPathLength < _sampleLength)
                 {
-                    Vector3D lastInterpolatedPoint = interpolatedPath.Last();
-                    // How much REST distance of the sample length can be found behind TO.
-                    double rest = _sampleLength - (lastInterpolatedPoint - to).Length;
+                    // How much REST distance of the sample length can be found behind TO?
+                    // FROM should be the last interpolated point if CASE 3 happened before.
+                    // If CASE 1 preceded FROM should be an original point. Then REST will 
+                    // be equal to the sample length.
+                    double rest = _sampleLength - (from - to).Length;
 
                     // Update FROM and TO.
                     from = to;
@@ -89,7 +94,7 @@ namespace PathInterpolation
 
 
                 // --------------------------------------------------------------
-                // CASE 3: The samling raster is smaller then the point distance.
+                // CASE 3: The sampling raster is smaller then the point distance.
                 // --------------------------------------------------------------
                 else
                 {
