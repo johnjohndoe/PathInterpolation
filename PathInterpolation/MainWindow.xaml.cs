@@ -65,10 +65,12 @@ namespace PathInterpolation
         private void Interpolate_Click(object sender, RoutedEventArgs e)
         {
             // Get settings.
-            UInt16 samplingRate = UInt16.Parse(samplingRate_TextField.Text);
+            ushort samplingRate;
+            if (!UInt16.TryParse(samplingRate_TextField.Text, out samplingRate))
+                return;
 
             // Calculate.
-            IList<Vector3D> interpolatedLine = interpolation.Interpolate(samplingRate, originalPath);
+            IList<Vector3D> interpolatedLine = interpolation.Interpolate((UInt16)samplingRate, originalPath);
             if (interpolatedLine == null)
                 return;
 
@@ -107,6 +109,17 @@ namespace PathInterpolation
                 dots.Children.Add(dot);
             }
 
+        }
+
+        /// <summary>
+        /// Event handler for the sampling rate text field key down events.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
+        private void samplingRate_TextField_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                Interpolate_Click(sender, e);
         }
     }
 }

@@ -131,7 +131,7 @@ namespace PathInterpolation
         /// <param name="distanceFromTo">The full distance from P1 to P2.</param>
         /// <param name="distanceToGo">The distance to go on the direction vector.</param>
         /// <returns>The translation vector.</returns>
-        Vector3D TranslationVector(Vector3D directionVector, double distanceFromTo, double distanceToGo)
+        private Vector3D TranslationVector(Vector3D directionVector, double distanceFromTo, double distanceToGo)
         {
             return directionVector * distanceToGo / distanceFromTo;
         }
@@ -143,7 +143,7 @@ namespace PathInterpolation
         /// Returns the sum of all distances iterating from point to point.
         /// </summary>
         /// <returns>The total distance</returns>
-        double TotalPathDistance()
+        private double TotalPathDistance()
         {
             double distanceSum = 0;
             Vector3D current = _path.First();

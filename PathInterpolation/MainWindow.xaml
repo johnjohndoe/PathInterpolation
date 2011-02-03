@@ -8,7 +8,7 @@
             <Polyline x:Name="interpolated" Stroke="Black" StrokeThickness="2"/>
             <Canvas x:Name="dots" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         </Canvas>
-        <TextBox Height="23" HorizontalAlignment="Right" Margin="0,0,117,12" Name="samplingRate_TextField" VerticalAlignment="Bottom" Width="39" Text="42" TextAlignment="Right" />
+        <TextBox Height="23" HorizontalAlignment="Right" Margin="0,0,117,12" Name="samplingRate_TextField" VerticalAlignment="Bottom" Width="39" Text="42" TextAlignment="Right" KeyDown="samplingRate_TextField_KeyDown" />
         <Button Content="Interpolate" Height="25" HorizontalAlignment="Right" Margin="0,0,12,12" Name="interpolate_Button" VerticalAlignment="Bottom" Width="98" Click="Interpolate_Click" />
         <Label Content="Sampling rate:" Height="28" HorizontalAlignment="Right" Margin="0,0,161,10" Name="samplingRate_Label" VerticalAlignment="Bottom" Width="92" FlowDirection="LeftToRight" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" />
         <Label Content="Label" Height="28" HorizontalAlignment="Right" Margin="0,0,117,82" Name="originalPathCount" VerticalAlignment="Bottom" VerticalContentAlignment="Center" />
