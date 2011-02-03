@@ -2,6 +2,8 @@ Path interpolation
 ===================
 
 The sample program shows how to interpolate a path of points. The sampling rate can be choosen flexible.
+The sampling rate can be changed via the text field. Further, you can use the arrow keys to increment (UP) 
+or decrement (DOWN) the value when the cursor is in the text field.
 
 Screenshot
 ------------------
