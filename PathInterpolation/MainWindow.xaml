@@ -3,17 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="PathInterpolation" Height="543" Width="525">
     <Grid>
-        <Canvas HorizontalAlignment="Stretch" Name="canvas" VerticalAlignment="Top" Background="#FFc5c5c5" Height="360">
-            <Polyline x:Name="polyline" Stroke="Red" StrokeThickness="6"/>
-            <Polyline x:Name="interpolated" Stroke="Black" StrokeThickness="2"/>
+        <Canvas HorizontalAlignment="Stretch" Name="canvas" VerticalAlignment="Stretch" Background="#FFc5c5c5" Height="Auto" MouseDown="canvas_MouseDown" Margin="0,0,0,160">
+            <Polyline x:Name="polylineOriginal" Stroke="Red" StrokeThickness="6"/>
+            <Polyline x:Name="polylineInterpolation" Stroke="Black" StrokeThickness="2"/>
             <Canvas x:Name="dots" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         </Canvas>
         <TextBox Height="23" HorizontalAlignment="Right" Margin="0,0,117,12" Name="samplingRate_TextField" VerticalAlignment="Bottom" Width="39" Text="42" TextAlignment="Right" KeyDown="samplingRate_TextField_KeyDown" />
-        <Button Content="Interpolate" Height="25" HorizontalAlignment="Right" Margin="0,0,12,12" Name="interpolate_Button" VerticalAlignment="Bottom" Width="98" Click="Interpolate_Click" />
+        <Button Content="Interpolate" Height="25" HorizontalAlignment="Right" Margin="0,0,12,12" Name="interpolateButton" VerticalAlignment="Bottom" Width="98" Click="Interpolate_Click" />
         <Label Content="Sampling rate:" Height="28" HorizontalAlignment="Right" Margin="0,0,161,10" Name="samplingRate_Label" VerticalAlignment="Bottom" Width="92" FlowDirection="LeftToRight" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" />
         <Label Content="Label" Height="28" HorizontalAlignment="Right" Margin="0,0,117,82" Name="originalPathCount" VerticalAlignment="Bottom" VerticalContentAlignment="Center" />
         <Label Content="Original path:" Height="28" HorizontalAlignment="Right" Margin="0,0,161,82" Name="originalPathCountLabel" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" />
         <Label Content="Label" Height="28" HorizontalAlignment="Right" Margin="0,0,117,48" Name="interpolatedPathCount" VerticalAlignment="Bottom" VerticalContentAlignment="Center" />
         <Label Content="Interpolated path:" Height="28" HorizontalAlignment="Right" Margin="0,0,161,48" Name="interpolatedPathCountLabel" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" />
+        <Button Content="Clear line(s)" Height="23" HorizontalAlignment="Left" Margin="12,0,0,12" Name="clearLinesButton" VerticalAlignment="Bottom" Width="112" Click="clearLinesButton_Click"></Button>
+        <Button Content="Undo last" Height="23" HorizontalAlignment="Left" Margin="12,0,0,48" Name="undoLastButton" VerticalAlignment="Bottom" Width="112" Click="undoLastButton_Click" />
     </Grid>
 </Window>

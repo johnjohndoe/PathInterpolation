@@ -29,6 +29,9 @@ namespace PathInterpolation
         /// <returns>A list of points or null if the sampling rate is to small.</returns>
         public IList<Vector3D> Interpolate(UInt16 samplingRate, IList<Vector3D> path)
         {
+            if (path == null || path.Count < 3)
+                return null;
+
             if (samplingRate < 2)
                 return null;
 
