@@ -38,88 +38,44 @@ namespace PathInterpolation
             _samplingRate = samplingRate;
             _path = path;
 
-            IList<Vector3D> interpolatedPath = new List<Vector3D>(_samplingRate);
+            var interpolatedPath = new Vector3D[_samplingRate];
             // The aim is to produce sampling rate - 1 line segments - in other words 
             // as many points as the sampling rate value.
             _sampleLength = TotalPathDistance() / (_samplingRate - 1);
 
+			// Keep the first and last point of the original path. 
+            interpolatedPath[0] = path[0];
+            interpolatedPath[samplingRate-1] = path[path.Count-1];
 
-            int pathIndex = 0;
-            
-            Vector3D from = _path.First();
-            interpolatedPath.Add(from);
-            Vector3D to = _path[++pathIndex];
-
-            double currentPathLength;
-            Vector3D translationVector;
-
-
-            while (pathIndex < _path.Count)
+            // Pre-calculate distances from start for all points in the original path. 
+            var pathDistances = new double[path.Count];
+            for (int i = 1; i < pathDistances.Length; i++)
             {
-                currentPathLength = (from - to).Length;
+                pathDistances[i] = pathDistances[i-1] + (path[i] - path[i - 1]).Length;
+            }
 
-                // --------------------------------------------------------------
-                // CASE 1: The sampling raster matches with original point.
-                // --------------------------------------------------------------
-                if (currentPathLength == _sampleLength)
-                {
-                    // Add the destination point.
-                    interpolatedPath.Add(to);
-                    from = to;
-                    to = _path[++pathIndex];
-                }
+            int pathIndex = 1;
 
+            for (int i = 1; i < interpolatedPath.Length; i++)
+            {
+                // Find the first index of the original path whose distance is greater 
+                // than that of the next sample we have to place on the path. 
+                while (i * _sampleLength > pathDistances[pathIndex]) 
+				{
+					pathIndex++;
+				}
 
-                // --------------------------------------------------------------
-                // CASE 2: The sampling raster is larger then the point distance.
-                // --------------------------------------------------------------
-                else if (currentPathLength < _sampleLength)
-                {
-                    // How much REST distance of the sample length can be found behind TO?
-                    // FROM should be the last interpolated point if CASE 3 happened before.
-                    // If CASE 1 preceded FROM should be an original point. Then REST will 
-                    // be equal to the sample length.
-                    double rest = _sampleLength - (from - to).Length;
+                // Calculate fraction of new sample within step of original path. 
+                var fraction = _sampleLength - (pathDistances[pathIndex - 1] - ((i - 1)*_sampleLength));
 
-                    // Update FROM and TO.
-                    from = to;
-                    to = _path[++pathIndex];
-                    currentPathLength = (from - to).Length;
+                var direction = path[pathIndex] - path[pathIndex - 1];
+                direction.Normalize();
 
-                    // Calculate a new point refering to FROM with distance of REST.
-                    translationVector = TranslationVector((to - from), currentPathLength, rest);
-                    Vector3D iPoint = from + translationVector;
-                    interpolatedPath.Add(iPoint);
+                var offset = Vector3D.Multiply(direction, fraction);
 
-                    // Translate FROM to where the newly generated point is.
-                    from = iPoint;
-                }
-
-
-                // --------------------------------------------------------------
-                // CASE 3: The sampling raster is smaller then the point distance.
-                // --------------------------------------------------------------
-                else
-                {
-                    translationVector = TranslationVector((to - from), currentPathLength, _sampleLength);
-                    Vector3D iPoint = from + translationVector;
-                    interpolatedPath.Add(iPoint);
-
-                    from = iPoint;
-                }
-
-                // --------------------------------------------------------------
-                // Store the last original point.
-                // --------------------------------------------------------------
-                if (interpolatedPath.Count >= _samplingRate - 1)
-                {
-                    interpolatedPath.Add(_path.Last());
-                    break;
-                }
-
-            } // while
-
-            return interpolatedPath;
+                interpolatedPath[i] = Vector3D.Add(path[pathIndex-1], offset);
+            }
+            return interpolatedPath.ToList();
         }
 
 
