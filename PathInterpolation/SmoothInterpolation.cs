@@ -10,8 +10,6 @@ namespace PathInterpolation
     /// The SmoothInterpolation class is capable of calculating a new path with points 
     /// distributed in equal distances along the original path with more a less 
     /// the same position.
-    /// TODO: Subsampling the path does not work satisfying due to the direction vector 
-    /// which is taken from the first point pair of the original path.
     /// </summary>
     public class SmoothInterpolation : IInterpolation
     {
@@ -80,21 +78,6 @@ namespace PathInterpolation
 
 
         #endregion
-
-
-
-        /// <summary>
-        /// Returns the translation vector which should be added to P1 (the "from" point).
-        /// </summary>
-        /// <param name="directionVector">P2 - P1.</param>
-        /// <param name="distanceFromTo">The full distance from P1 to P2.</param>
-        /// <param name="distanceToGo">The distance to go on the direction vector.</param>
-        /// <returns>The translation vector.</returns>
-        private Vector3D TranslationVector(Vector3D directionVector, double distanceFromTo, double distanceToGo)
-        {
-            return directionVector * distanceToGo / distanceFromTo;
-        }
-
 
 
 
